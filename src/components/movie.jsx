@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "antd";
+import { Card, Col, Row } from "antd";
 import axios, { Axios } from "axios";
 
 function Movie() {
   const [movieList, setMovieList] = useState([]);
   const [error, setError] = useState(null);
+
+  const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
+
   useEffect(() => {
     try {
       axios({
@@ -28,13 +31,27 @@ function Movie() {
     <>
       {error && <p>{error}</p>}
       {console.log(movieList)}
-      <ul>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 30,
+          justifyContent: "center",
+        }}
+      >
         {movieList.map((movie) => (
-          <Card key={movie.id}>
-            <li>{movie.original_title}</li>
+          <Card key={movie.id} style={{ width: "450px", marginBottom: 30 }}>
+            <span style={{ display: "flex", flexWrap: "nowrap" }}>
+              <img
+                src={`${imageBaseUrl}${movie.backdrop_path}`}
+                alt=""
+                style={{ maxWidth: 300 }}
+              />
+              <li>{movie.original_title}</li>
+            </span>
           </Card>
         ))}
-      </ul>
+      </div>
     </>
   );
 }

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { Alert, Button, Spin } from "antd";
 import axios from "axios";
 
 import MovieCard from "./MovieCard";
 
 const MovieList = () => {
+  const [loading, setLoading] = useState(false);
   const [list, setList] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
     axios({
       method: "get",
       url: "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
@@ -19,34 +22,52 @@ const MovieList = () => {
     })
       .then((response) => {
         setList(response.data.results);
+        setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
         setError(err);
+        setLoading(false);
       });
   }, []);
+
   return (
     <>
-      {error && <p>{error}</p>}
+      {error && (
+        <Alert
+          message={error.message}
+          showIcon
+          description="Error Description. Error Description. Error Description."
+          type="error"
+          action={
+            <Button size="small" danger>
+              Detail
+            </Button>
+          }
+        />
+      )}
       {console.log(list)}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          gap: 20,
-        }}
-      >
-        {list.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            title={movie.original_title}
-            path={movie.backdrop_path}
-            date={movie.release_date}
-            overview={movie.overview}
-            rate={movie.vote_average}
-          />
-        ))}
-      </div>
+      {loading ? (
+        <Spin />
+      ) : (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: 20,
+          }}
+        >
+          {list.map((movie) => (
+            <MovieCard
+              key={movie.id}
+              title={movie.original_title}
+              path={movie.backdrop_path}
+              date={movie.release_date}
+              overview={movie.overview}
+              rate={movie.vote_average}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 };

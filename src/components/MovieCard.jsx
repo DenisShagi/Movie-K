@@ -42,7 +42,6 @@ const MovieCard = ({ title, path, date, overview, rate }) => {
         <DateCard date={date} />
         <span>{overview}</span>
         <footer>
-          {console.log(rate.toFixed(1))}
           <Rate disabled allowHalf defaultValue={rate} count={10} />
         </footer>
       </article>

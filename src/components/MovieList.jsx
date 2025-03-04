@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDebounce } from "use-debounce";
 
 import MovieCard from "./MovieCard";
+import PaginationList from "./PaginationList";
 import SearchMovie from "./Search";
 
 const MovieList = () => {
@@ -14,6 +15,13 @@ const MovieList = () => {
   const [list, setList] = useState([]);
   const [initialList, setInitialList] = useState([]);
   const [error, setError] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 6;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = currentPage * itemsPerPage;
+
   useEffect(() => {
     setLoading(true);
     axios({
@@ -55,6 +63,7 @@ const MovieList = () => {
       .then((response) => {
         setList(response.data.results);
         setLoading(false);
+        setCurrentPage(1);
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
@@ -88,6 +97,11 @@ const MovieList = () => {
       ) : (
         <>
           <SearchMovie onChange={(e) => setText(e.target.value)} value={text} />
+          <PaginationList
+            total={list.length}
+            onChange={(page) => setCurrentPage(page)}
+            current={currentPage}
+          />
           <div
             style={{
               display: "grid",
@@ -95,7 +109,7 @@ const MovieList = () => {
               gap: 20,
             }}
           >
-            {list.map((movie) => (
+            {list.slice(startIndex, endIndex).map((movie) => (
               <MovieCard
                 key={movie.id}
                 title={movie.original_title}

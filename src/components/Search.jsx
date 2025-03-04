@@ -11,6 +11,7 @@ const SearchMovie = ({ onChange, value }) => {
         size="large"
         onChange={onChange}
         value={value}
+        autoFocus
       />
     </>
   );

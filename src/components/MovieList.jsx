@@ -36,6 +36,7 @@ const MovieList = () => {
       });
   }, []);
   useEffect(() => {
+    const source = axios.CancelToken.source();
     if (!debouncedText.trim()) {
       setList(initialList);
       return;
@@ -49,16 +50,23 @@ const MovieList = () => {
         Authorization:
           "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMDk4MzkyZjMyNDAzMjE2ZGU3YTU3ODlmOTU2MzNkOSIsIm5iZiI6MTc0MDk3ODczNi4wMzIsInN1YiI6IjY3YzUzYTMwNDhlZTkwMTVhYjdhNzIyYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AW8XrxA2kojgQozWLqAqxJqLWGekLs1X8cjI2SKDPf8",
       },
+      cancelToken: source.token,
     })
       .then((response) => {
         setList(response.data.results);
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
-        setLoading(false);
-        setError(err);
+        if (axios.isCancel(err)) {
+          console.log("Запрос отменён:", err.message);
+        } else {
+          setError(err);
+          setLoading(false);
+        }
       });
+    return () => {
+      source.cancel("Операция отменена из-за нового запроса.");
+    };
   }, [debouncedText, initialList]);
   return (
     <>

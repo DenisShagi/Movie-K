@@ -27,12 +27,22 @@ const MovieCard = ({ title, path, date, overview, rate }) => {
           height: 260,
         }}
       >
-        <header>
+        <header
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <h5 style={{ fontSize: 20, margin: 0 }}>{title}</h5>
+          <span style={{ borderRadius: 50, border: "1px solid black" }}>
+            {rate.toFixed(1)}
+          </span>
         </header>
         <DateCard date={date} />
         <span>{overview}</span>
         <footer>
+          {console.log(rate.toFixed(1))}
           <Rate disabled allowHalf defaultValue={rate} count={10} />
         </footer>
       </article>

@@ -29,16 +29,24 @@ const MovieList = () => {
     <>
       {error && <p>{error}</p>}
       {console.log(list)}
-      {list.map((movie) => (
-        <MovieCard
-          key={movie.id}
-          title={movie.original_title}
-          path={movie.backdrop_path}
-          date={movie.release_date}
-          overview={movie.overview}
-          rate={movie.vote_average}
-        />
-      ))}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: 20,
+        }}
+      >
+        {list.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            title={movie.original_title}
+            path={movie.backdrop_path}
+            date={movie.release_date}
+            overview={movie.overview}
+            rate={movie.vote_average}
+          />
+        ))}
+      </div>
     </>
   );
 };

@@ -1,5 +1,7 @@
 import { Card, Rate } from "antd";
 
+import DateCard from "./DateCard";
+
 const MovieCard = ({ title, path, date, overview, rate }) => {
   const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
@@ -19,16 +21,16 @@ const MovieCard = ({ title, path, date, overview, rate }) => {
         style={{
           display: "flex",
           flexDirection: "column",
-					justifyContent: 'space-between',
-          textAlign: 'left',
+          justifyContent: "space-between",
+          textAlign: "left",
           maxWidth: 280,
-					height: 260
+          height: 260,
         }}
       >
         <header>
           <h5 style={{ fontSize: 20, margin: 0 }}>{title}</h5>
         </header>
-        <span>{date}</span>
+        <DateCard date={date} />
         <span>{overview}</span>
         <footer>
           <Rate disabled allowHalf defaultValue={rate} count={10} />

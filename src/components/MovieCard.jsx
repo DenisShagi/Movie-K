@@ -5,6 +5,18 @@ import DateCard from "./DateCard";
 const MovieCard = ({ title, path, date, overview, rate }) => {
   const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
+  const trimText = (overview) => {
+    if (overview.length > 202) {
+      const truncated = overview.substring(0, 200);
+      const lastSpaceIndex = truncated.lastIndexOf(" ");
+      if (lastSpaceIndex === -1) {
+        return overview.substring(0, 200) + "...";
+      }
+      return overview.substring(0, lastSpaceIndex) + "...";
+    }
+    return overview;
+  };
+
   return (
     <Card styles={{ body: { display: "flex", alignItems: "center" } }}>
       <img
@@ -40,7 +52,8 @@ const MovieCard = ({ title, path, date, overview, rate }) => {
           </span>
         </header>
         <DateCard date={date} />
-        <span>{overview}</span>
+        <span>{trimText(overview)}</span>
+        {/* <span>{overview}</span> */}
         <footer>
           <Rate disabled allowHalf defaultValue={rate} count={10} />
         </footer>

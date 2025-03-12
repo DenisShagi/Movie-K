@@ -1,24 +1,52 @@
-import { Card, Rate } from "antd";
+import { startTransition, useState } from "react";
+import { Card, message, Rate } from "antd";
 
 import DateCard from "./DateCard";
 
-const MovieCard = ({ title, path, date, overview, rate }) => {
+const MovieCard = ({
+  title,
+  path,
+  date,
+  overview,
+  rate,
+  movieId,
+  onRateUpdate,
+}) => {
+  const [optimisticRate, setOptimisticRate] = useState(rate);
   const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
-  const trimText = (overview) => {
-    if (overview.length > 202) {
-      const truncated = overview.substring(0, 200);
+  const trimText = (text) => {
+    if (text.length > 202) {
+      const truncated = text.substring(0, 200);
       const lastSpaceIndex = truncated.lastIndexOf(" ");
       if (lastSpaceIndex === -1) {
-        return overview.substring(0, 200) + "...";
+        return text.substring(0, 200) + "...";
       }
-      return overview.substring(0, lastSpaceIndex) + "...";
+      return text.substring(0, lastSpaceIndex) + "...";
     }
-    return overview;
+    return text;
+  };
+
+  const handleRateChange = async (newRate) => {
+    const previousRate = optimisticRate;
+    // Обновляем оптимистично через startTransition
+    startTransition(() => {
+      setOptimisticRate(newRate);
+    });
+
+    try {
+      await onRateUpdate(movieId, newRate);
+      message.success("Рейтинг обновлён!");
+    } catch (error) {
+      startTransition(() => {
+        setOptimisticRate(previousRate);
+      });
+      message.error("Ошибка обновления рейтинга");
+    }
   };
 
   return (
-    <Card styles={{ body: { display: "flex", alignItems: "center" } }}>
+    <Card style={{ display: "flex", alignItems: "center" }}>
       <img
         src={`${imageBaseUrl}${path}`}
         alt={title}
@@ -47,15 +75,25 @@ const MovieCard = ({ title, path, date, overview, rate }) => {
           }}
         >
           <h5 style={{ fontSize: 20, margin: 0 }}>{title}</h5>
-          <span style={{ borderRadius: 50, border: "1px solid black" }}>
-            {rate.toFixed(1)}
+          <span
+            style={{
+              borderRadius: "50%",
+              border: "1px solid black",
+              padding: "4px 8px",
+            }}
+          >
+            {optimisticRate.toFixed(1)}
           </span>
         </header>
         <DateCard date={date} />
         <span>{trimText(overview)}</span>
-        {/* <span>{overview}</span> */}
         <footer>
-          <Rate disabled allowHalf defaultValue={rate} count={10} />
+          <Rate
+            allowHalf
+            value={optimisticRate}
+            count={10}
+            onChange={handleRateChange}
+          />
         </footer>
       </article>
     </Card>

@@ -1,9 +1,17 @@
-import { Pagination } from "antd";
+import { ConfigProvider, Pagination } from "antd";
 
 const PaginationList = ({ total, onChange, current }) => {
   return (
     <>
-      <Pagination
+    <ConfigProvider theme={{
+      components: {
+        Pagination: {
+          colorPrimary: '#fff',
+          itemActiveBg: '#1890FF'
+        }
+      }
+    }}>
+ <Pagination
         defaultCurrent={1}
         align="center"
         total={total}
@@ -11,6 +19,8 @@ const PaginationList = ({ total, onChange, current }) => {
         pageSize={6}
         current={current}
       />
+    </ConfigProvider>
+     
     </>
   );
 };

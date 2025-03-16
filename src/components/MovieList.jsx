@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Alert, Button, Spin } from "antd";
+import { Alert, Button, ConfigProvider, Spin } from "antd";
 import axios from "axios";
 import { useDebounce } from "use-debounce";
 
@@ -120,11 +120,7 @@ const MovieList = () => {
       ) : (
         <>
           <SearchMovie onChange={(e) => setText(e.target.value)} value={text} />
-          <PaginationList
-            total={list.length}
-            onChange={(page) => setCurrentPage(page)}
-            current={currentPage}
-          />
+          
           <div
             style={{
               display: "grid",
@@ -144,6 +140,15 @@ const MovieList = () => {
                 onRateUpdate={onRateUpdate}
               />
             ))}
+          </div>
+          <div style={{padding: '10px'}}>
+           
+            <PaginationList
+            total={list.length}
+            onChange={(page) => setCurrentPage(page)}
+            current={currentPage}
+            
+          />
           </div>
         </>
       )}

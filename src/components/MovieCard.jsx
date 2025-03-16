@@ -27,9 +27,14 @@ const MovieCard = ({
     return text;
   };
 
+  const getRatingColor = (rating) => {
+    if (rating < 3) return "#E90000";
+    if (rating < 5) return "#E97E00";
+    if (rating < 7) return "#E9D100";
+    return "#66E900";
+  };
   const handleRateChange = async (newRate) => {
     const previousRate = optimisticRate;
-    // Обновляем оптимистично через startTransition
     startTransition(() => {
       setOptimisticRate(newRate);
     });
@@ -75,11 +80,17 @@ const MovieCard = ({
           }}
         >
           <h5 style={{ fontSize: 20, margin: 0 }}>{title}</h5>
+
           <span
             style={{
               borderRadius: "50%",
-              border: "1px solid black",
-              padding: "4px 8px",
+              border: "2px solid black",
+              width: "30px",
+              height: "30px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderColor: getRatingColor(optimisticRate)
             }}
           >
             {optimisticRate.toFixed(1)}

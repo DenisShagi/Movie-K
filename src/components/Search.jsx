@@ -5,8 +5,8 @@ const SearchMovie = ({ onChange, value }) => {
 
   return (
     <>
-      <Search
-        placeholder="Input search text"
+      <Search style={{padding: '32px'}}
+        placeholder="Type to search..."
         enterButton="Search"
         size="large"
         onChange={onChange}

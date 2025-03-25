@@ -2,6 +2,7 @@ import { startTransition, useState } from "react";
 import { Card, message, Rate } from "antd";
 
 import DateCard from "./DateCard";
+import Genres from "./Genres";
 
 const MovieCard = ({
   title,
@@ -11,6 +12,7 @@ const MovieCard = ({
   rate,
   movieId,
   onRateUpdate,
+  genreIds,
 }) => {
   const [optimisticRate, setOptimisticRate] = useState(rate);
   const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
@@ -98,6 +100,7 @@ const MovieCard = ({
         </header>
         <DateCard date={date} />
         <span>{trimText(overview)}</span>
+        <Genres genreIds={genreIds} />
         <footer>
           <Rate
             allowHalf

@@ -138,6 +138,7 @@ const MovieList = () => {
                 overview={movie.overview}
                 rate={movie.vote_average}
                 onRateUpdate={onRateUpdate}
+                genreIds={movie.genre_ids} // Передаём массив genre_ids
               />
             ))}
           </div>

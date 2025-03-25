@@ -22,7 +22,6 @@ export const SessionProvider = ({ children }) => {
     } else {
       axios({
         method: "get",
-
         url: "https://api.themoviedb.org/3/authentication/guest_session/new",
         headers: {
           accept: "application/json",

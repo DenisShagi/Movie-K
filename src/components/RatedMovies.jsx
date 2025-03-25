@@ -76,6 +76,7 @@ const RatedMovies = () => {
               date={movie.release_date}
               overview={movie.overview}
               rate={movie.rating}
+              genreIds={movie.genre_ids}
             />
           ))}
         </div>

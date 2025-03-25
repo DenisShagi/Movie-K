@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const Genres = ({ genreIds }) => {
+// Задаём значение по умолчанию для genreIds - пустой массив.
+const Genres = ({ genreIds = [] }) => {
   const [allGenres, setAllGenres] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     axios({
       method: "get",
-      url: "https://api.themoviedb.org/3/genre/movie/list?language=en-EU",
+      url: "https://api.themoviedb.org/3/genre/movie/list",
       headers: {
         accept: "application/json",
         "Content-Type": "application/json;charset=utf-8",

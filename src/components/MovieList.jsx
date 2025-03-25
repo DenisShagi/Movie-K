@@ -120,7 +120,7 @@ const MovieList = () => {
       ) : (
         <>
           <SearchMovie onChange={(e) => setText(e.target.value)} value={text} />
-          
+
           <div
             style={{
               display: "grid",
@@ -138,18 +138,16 @@ const MovieList = () => {
                 overview={movie.overview}
                 rate={movie.vote_average}
                 onRateUpdate={onRateUpdate}
-                genreIds={movie.genre_ids} // Передаём массив genre_ids
+                genreIds={movie.genre_ids}
               />
             ))}
           </div>
-          <div style={{padding: '10px'}}>
-           
+          <div style={{ padding: "10px" }}>
             <PaginationList
-            total={list.length}
-            onChange={(page) => setCurrentPage(page)}
-            current={currentPage}
-            
-          />
+              total={list.length}
+              onChange={(page) => setCurrentPage(page)}
+              current={currentPage}
+            />
           </div>
         </>
       )}
